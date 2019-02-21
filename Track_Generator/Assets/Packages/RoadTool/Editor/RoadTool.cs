@@ -105,22 +105,30 @@ public class RoadTool : Editor
         road.Sin_FRQ = EditorGUILayout.FloatField("Sin_FRQ", road.Sin_FRQ);
         road.Sin_MGT = EditorGUILayout.FloatField("Sin_MGT", road.Sin_MGT);
 
-        road.Circle_Offset_Cos_FRQ = EditorGUILayout.FloatField("Circle_Offset_Cos_FRQ", road.Circle_Offset_Cos_FRQ);
-        road.Circle_Offset_Cos_MGT = EditorGUILayout.FloatField("Circle_Offset_Cos_MGT", road.Circle_Offset_Cos_MGT);
+        road.Circle_Offset_FRQ = EditorGUILayout.FloatField("Circle_Offset_FRQ", road.Circle_Offset_FRQ);
+        road.Circle_Offset_MGT = EditorGUILayout.FloatField("Circle_Offset_MGT", road.Circle_Offset_MGT);
 
-        road.Circle_Offset_Sin_FRQ = EditorGUILayout.FloatField("Circle_Offset_Sin_FRQ", road.Circle_Offset_Sin_FRQ);
-        road.Circle_Offset_Sin_MGT = EditorGUILayout.FloatField("Circle_Offset_Sin_MGT", road.Circle_Offset_Sin_MGT);
-
+        road.Seed = EditorGUILayout.IntField("Seed", road.Seed);
+        road.Amplitude_Perlin_Zoom = EditorGUILayout.FloatField("Amplitude_Perlin_Zoom", road.Amplitude_Perlin_Zoom);
+        road.Amplitude_Perlin_MGT = EditorGUILayout.FloatField("Amplitude_Perlin_MGT", road.Amplitude_Perlin_MGT);
         road.Amplitude_Offset_FRQ = EditorGUILayout.FloatField("Amplitude_Offset_FRQ", road.Amplitude_Offset_FRQ);
         road.Amplitude_Offset_MGT = EditorGUILayout.FloatField("Amplitude_Offset_MGT", road.Amplitude_Offset_MGT);
+        road.Amplitude_Perlin_OffsetX = EditorGUILayout.FloatField("Amplitude_Perlin_OffsetX", road.Amplitude_Perlin_OffsetX); ;
+        road.Amplitude_Perlin_OffsetY = EditorGUILayout.FloatField("Amplitude_Perlin_OffsetY", road.Amplitude_Perlin_OffsetY); ;
 
-        EditorGUILayout.EndVertical();
+
+    EditorGUILayout.EndVertical();
 
 
 
         if (GUILayout.Button("Modify"))
         {
             road.acceptInput = false;
+
+            road.Seed = Random.Range(1, 255);
+
+            EditorGUILayout.IntField("Seed", road.Seed);
+
             road.Refresh();
             SceneView.RepaintAll();
         }

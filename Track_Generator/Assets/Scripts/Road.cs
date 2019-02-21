@@ -42,35 +42,57 @@ public class Road : MonoBehaviour
     public float Sin_FRQ = 1f;
     public float Sin_MGT = 2f;
 
-    public float Circle_Offset_Cos_FRQ = 10f;
-    public float Circle_Offset_Cos_MGT = 0.2f;
-
-    public float Circle_Offset_Sin_FRQ = 5f;
-    public float Circle_Offset_Sin_MGT = 0.1f;
+    public float Circle_Offset_FRQ = 10f;
+    public float Circle_Offset_MGT = 0.2f;
 
     public float Amplitude_Offset_FRQ = 10f;
     public float Amplitude_Offset_MGT = 0.1f;
 
-    public void Refresh()
-	{
+    public float Amplitude_Perlin_Zoom = 10f;
+    public float Amplitude_Perlin_MGT = 0.1f;
+    public float Amplitude_Perlin_OffsetX = 1f;
+    public float Amplitude_Perlin_OffsetY = 1f;
 
+
+    public int Seed = 1;
+
+
+
+    public void Generate_Road(int _Seed)
+    {
         points.Clear();
 
         float inc = 2f * Mathf.PI / nbr;
 
-        Vector3 last = Vector3.zero; 
+        Vector3 last = Vector3.zero;
+
+        Random.InitState(_Seed); 
+
+        // *100 because overwise it was everytime in the very close center og the perlin 
+        float rdm_x = Random.value * 100 + Amplitude_Perlin_OffsetX;
+        float rdm_y = Random.value * 100 + Amplitude_Perlin_OffsetY;
+
 
         for (int i = 0; i < nbr - 1; i++)
         {
 
-            float offset01 = Mathf.Cos(inc * i * Circle_Offset_Cos_FRQ) * Circle_Offset_Cos_MGT;
+            float offset01 = (Mathf.Cos(inc * i * Circle_Offset_FRQ) + 1 ) * Circle_Offset_MGT;
 
-            float offset02 = Mathf.Sin(inc * i * Circle_Offset_Sin_FRQ) * Circle_Offset_Sin_MGT;
+            float offset02 = (Mathf.Sin(inc * i * Circle_Offset_FRQ) + 1 ) * Circle_Offset_MGT;
 
             //Direction
             Vector3 vec = new Vector3(Mathf.Cos(inc * i * Cos_FRQ + offset02) * Cos_MGT, 0, Mathf.Sin(inc * i * Sin_FRQ + offset01) * Sin_MGT);
+
             //Amplitude
-            vec *= (Size * (1 + Mathf.Cos(inc * i * Amplitude_Offset_FRQ) * Amplitude_Offset_MGT));
+            vec *= Size * 
+                //Base amplitude
+                (1
+                //Perlin Offsest
+                + Mathf.PerlinNoise(rdm_x + Mathf.Cos(inc*i) * Amplitude_Perlin_Zoom, rdm_y + Mathf.Sin(inc * i) * Amplitude_Perlin_Zoom) * Amplitude_Perlin_MGT
+                //Cos Offset
+                + Mathf.Cos(inc * i * Amplitude_Offset_FRQ) * Amplitude_Offset_MGT);
+
+            //vec *= (Size * (1 + Mathf.Cos(inc * i * Amplitude_Offset_FRQ) * Amplitude_Offset_MGT));
 
             //Useless
             //Vector3 normal = (last - vec).normalized;
@@ -78,7 +100,14 @@ public class Road : MonoBehaviour
 
             points.Add(vec);
         }
+    }
 
+    public void Refresh()
+	{
+
+        points.Clear();
+
+        Generate_Road(Seed);
 
         if (points.Count < 2)
 			return;

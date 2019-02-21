@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1660627975109584}
+  m_IsPrefabAsset: 1
+--- !u!1 &1660627975109584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4304611452082834}
+  - component: {fileID: 114755683385644716}
+  - component: {fileID: 23021059845273456}
+  - component: {fileID: 33964386346053352}
+  m_Layer: 0
+  m_Name: Road -127752
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &4304611452082834
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1660627975109584}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.204396, y: 0, z: 1.0439976}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23021059845273456
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1660627975109584}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: b665a7da9264dcc4dbfded680b2959e7, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33964386346053352
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1660627975109584}
+  m_Mesh: {fileID: 0}
+--- !u!114 &114755683385644716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1660627975109584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2804bd2fd5f3d4940a6c105b891f6bc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceptInput: 0
+  connectEnds: 1
+  insertPoint: -1
+  points:
+  - {x: 8.221838, y: 0, z: -4.9871254}
+  - {x: 8.225832, y: 0.0014691352, z: 0.0030608177}
+  - {x: 8.257675, y: 2, z: 4.1817665}
+  - {x: 8.204984, y: 2, z: 6.54856}
+  - {x: 4.165983, y: 1.9998355, z: 6.640411}
+  - {x: -0.23025814, y: 1, z: 6.5480194}
+  - {x: -4.1543145, y: 1, z: 6.55066}
+  - {x: -8.388222, y: 0, z: 6.5386777}
+  - {x: -11.130777, y: 0, z: 6.5541563}
+  - {x: -11.021149, y: 0, z: -2.3218856}
+  - {x: 2.6923895, y: 0, z: -2.4738324}
+  - {x: 2.6051688, y: 0, z: -10.017814}
+  - {x: 8.207989, y: 0, z: -10.193122}
+  roadWidth: 1
+  groundOffset: 0.011
+  theta:
+  - 1.569996
+  - 1.5631762
+  - -1.5485373
+  - -0.022737043
+  - 0.021012926
+  - -0.0006729577
+  - 0.0028301068
+  - -0.005643804
+  - -1.5584459
+  - -0.011079603
+  - 1.5592352
+  - -0.03127908
+  - 1.5681361
+  terrainLayer: 8
+  swapUV: 0
+  flipU: 1
+  flipV: 1
+  uvScale: {x: 1, y: 1}
+  uvOffset: {x: 0, y: 0}
+  mat: {fileID: 2100000, guid: b665a7da9264dcc4dbfded680b2959e7, type: 2}

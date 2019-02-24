@@ -43,13 +43,13 @@ public class Road : MonoBehaviour
     public float Sin_MGT = 2f;
 
     public float Circle_Offset_FRQ = 10f;
-    public float Circle_Offset_MGT = 0.2f;
+    public float Circle_Offset_MGT = 0f;
 
-    public float Amplitude_Offset_FRQ = 10f;
+    public float Amplitude_Offset_FRQ = 3f;
     public float Amplitude_Offset_MGT = 0.1f;
 
-    public float Amplitude_Perlin_Zoom = 10f;
-    public float Amplitude_Perlin_MGT = 0.1f;
+    public float Amplitude_Perlin_Zoom = 2f;
+    public float Amplitude_Perlin_MGT = 0.6f;
     public float Amplitude_Perlin_OffsetX = 1f;
     public float Amplitude_Perlin_OffsetY = 1f;
 

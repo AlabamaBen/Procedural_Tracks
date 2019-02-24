@@ -14,11 +14,13 @@ public class RoadTool : Editor
 #region Private
 
 	Road road;
-#endregion
+    Terrain terrain;
 
-#region Constant
+    #endregion
 
-	const float MIN_ROAD_WIDTH = .3f;
+    #region Constant
+
+    const float MIN_ROAD_WIDTH = .3f;
 	const float MAX_ROAD_WIDTH = 50f;
 
 	const float MIN_GROUND_OFFSET = .001f;
@@ -69,7 +71,10 @@ public class RoadTool : Editor
 	public override void OnInspectorGUI()
 	{
 		GUI.changed = false;
-		road.roadWidth = EditorGUILayout.Slider("Road Width", road.roadWidth, MIN_ROAD_WIDTH, MAX_ROAD_WIDTH);
+
+        road.terrain_Generator = GameObject.FindGameObjectWithTag("Terrain").GetComponent<Terrain_Generator>(); 
+
+        road.roadWidth = EditorGUILayout.Slider("Road Width", road.roadWidth, MIN_ROAD_WIDTH, MAX_ROAD_WIDTH);
 		road.groundOffset = EditorGUILayout.Slider("Ground Offset", road.groundOffset, MIN_GROUND_OFFSET, MAX_GROUND_OFFSET);
 
 		EditorGUILayout.HelpBox("A negative value inserts new points at the end of the line.", MessageType.Info);
@@ -80,19 +85,26 @@ public class RoadTool : Editor
 		showUVOptions = EditorGUILayout.Foldout(showUVOptions, "UV Options");
 		if(showUVOptions)
 		{
-			road.swapUV = EditorGUILayout.Toggle("Swap UV", road.swapUV);
+            road.swapUV = EditorGUILayout.Toggle("Swap UV", road.swapUV);
 			road.flipU = EditorGUILayout.Toggle("Flip U", road.flipU);
 			road.flipV = EditorGUILayout.Toggle("Flip V", road.flipV);
 
 			road.uvScale = EditorGUILayout.Vector2Field("Scale", road.uvScale);
 			road.uvOffset = EditorGUILayout.Vector2Field("Offset", road.uvOffset);
-		}
+        }
 
-		road.mat = (Material)EditorGUILayout.ObjectField("Material", road.mat, typeof(Material), true);
+        road.mat = (Material)EditorGUILayout.ObjectField("Material", road.mat, typeof(Material), true);
 
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
 
-        EditorGUILayout.LabelField("Generator Parameters");
-        EditorGUILayout.BeginVertical();
+        EditorGUILayout.LabelField("Roads Parameters");
+        EditorGUILayout.Space();
+
+        road.Seed = EditorGUILayout.IntField("Seed", road.Seed);
+
+        EditorGUILayout.Space();
+
 
         //Generation Values
         road.nbr = EditorGUILayout.FloatField("Points Number", road.nbr);
@@ -108,18 +120,26 @@ public class RoadTool : Editor
         road.Circle_Offset_FRQ = EditorGUILayout.FloatField("Circle_Offset_FRQ", road.Circle_Offset_FRQ);
         road.Circle_Offset_MGT = EditorGUILayout.FloatField("Circle_Offset_MGT", road.Circle_Offset_MGT);
 
-        road.Seed = EditorGUILayout.IntField("Seed", road.Seed);
         road.Amplitude_Perlin_Zoom = EditorGUILayout.FloatField("Amplitude_Perlin_Zoom", road.Amplitude_Perlin_Zoom);
         road.Amplitude_Perlin_MGT = EditorGUILayout.FloatField("Amplitude_Perlin_MGT", road.Amplitude_Perlin_MGT);
         road.Amplitude_Offset_FRQ = EditorGUILayout.FloatField("Amplitude_Offset_FRQ", road.Amplitude_Offset_FRQ);
         road.Amplitude_Offset_MGT = EditorGUILayout.FloatField("Amplitude_Offset_MGT", road.Amplitude_Offset_MGT);
-        road.Amplitude_Perlin_OffsetX = EditorGUILayout.FloatField("Amplitude_Perlin_OffsetX", road.Amplitude_Perlin_OffsetX); ;
-        road.Amplitude_Perlin_OffsetY = EditorGUILayout.FloatField("Amplitude_Perlin_OffsetY", road.Amplitude_Perlin_OffsetY); ;
+        road.Amplitude_Perlin_OffsetX = EditorGUILayout.FloatField("Amplitude_Perlin_OffsetX", road.Amplitude_Perlin_OffsetX); 
+        road.Amplitude_Perlin_OffsetY = EditorGUILayout.FloatField("Amplitude_Perlin_OffsetY", road.Amplitude_Perlin_OffsetY); 
 
+        EditorGUILayout.Space();
 
-    EditorGUILayout.EndVertical();
+        EditorGUILayout.LabelField("Terrain Parameters");
+        EditorGUILayout.Space();
 
+        road.terrain_Generator.depth = EditorGUILayout.IntField("depth", road.terrain_Generator.depth);
+        road.terrain_Generator.width= EditorGUILayout.IntField("width", road.terrain_Generator.width);
+        road.terrain_Generator.height = EditorGUILayout.IntField("height", road.terrain_Generator.height);
+        road.terrain_Generator.scale = EditorGUILayout.FloatField("scale", road.terrain_Generator.scale);
+        road.terrain_Generator.offsetX = EditorGUILayout.FloatField("offsetX", road.terrain_Generator.offsetX); 
+        road.terrain_Generator.offsetY = EditorGUILayout.FloatField("offsetY", road.terrain_Generator.offsetY);
 
+        EditorGUILayout.Space();
 
         if (GUILayout.Button("Modify"))
         {

@@ -56,11 +56,16 @@ public class Road : MonoBehaviour
 
     public int Seed = 1;
 
+    [SerializeField]
+    public Terrain_Generator terrain_Generator;
+
 
 
     public void Generate_Road(int _Seed)
     {
         points.Clear();
+
+        terrain_Generator.GenerateTerrain();
 
         float inc = 2f * Mathf.PI / nbr;
 

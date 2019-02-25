@@ -105,6 +105,7 @@ public class Road : MonoBehaviour
 
             points.Add(vec);
         }
+
     }
 
     public void Refresh()
@@ -218,6 +219,8 @@ public class Road : MonoBehaviour
 		Vector3 diff = cen - transform.position;
 		transform.position = cen;
 
+		transform.position = new Vector3(cen.x, cen.y + 0.4f, cen.z);
+
 		for(int i = 0; i < v.Count; i++)
 		{
 			v[i] = RoadUtils.GroundHeight(v[i]) + new Vector3(0f, groundOffset, 0f);
@@ -230,6 +233,7 @@ public class Road : MonoBehaviour
 		m.uv = CalculateUV(m.vertices);
 		m.RecalculateNormals();
 		gameObject.GetComponent<MeshFilter>().sharedMesh = m;
+		gameObject.GetComponent<MeshCollider>().sharedMesh = m;
 		gameObject.GetComponent<MeshRenderer>().sharedMaterial = mat;
 #if UNITY_EDITOR
 		Unwrapping.GenerateSecondaryUVSet(gameObject.GetComponent<MeshFilter>().sharedMesh);

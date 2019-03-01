@@ -59,12 +59,17 @@ public class Road : MonoBehaviour
     [SerializeField]
     public Terrain_Generator terrain_Generator;
 
+    public Vector3 cen;
+
+    public float point1H;
+
+    public Portal portal; 
+
 
 
     public void Generate_Road(int _Seed)
     {
         points.Clear();
-
         terrain_Generator.GenerateTerrain();
 
         float inc = 2f * Mathf.PI / nbr;
@@ -215,7 +220,7 @@ public class Road : MonoBehaviour
 		transform.position = Vector3.zero;
 
 		// // center pivot point and set height offset
-		Vector3 cen = v.Average();
+		cen = v.Average();
 		Vector3 diff = cen - transform.position;
 		transform.position = cen;
 
@@ -223,9 +228,20 @@ public class Road : MonoBehaviour
 
 		for(int i = 0; i < v.Count; i++)
 		{
+
 			v[i] = RoadUtils.GroundHeight(v[i]) + new Vector3(0f, groundOffset, 0f);
 			v[i] -= diff;
-		}
+
+            if (i == 0)
+            {
+                point1H = v[i].y;
+            }
+        }
+
+        if(portal != null)
+        {
+            portal.ResetPosition();
+        }
 
 		Mesh m = new Mesh();
 		m.vertices = v.ToArray();

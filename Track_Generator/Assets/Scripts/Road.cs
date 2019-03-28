@@ -16,7 +16,7 @@ public class Road : MonoBehaviour
 	public int insertPoint = -1;
 	public List<Vector3> points = new List<Vector3>();
 	public float roadWidth = 1f;
-	public float groundOffset = .1f;
+	public float groundOffset = 0f;
 	public float[] theta;
 	public int terrainLayer = 8;
 
@@ -39,7 +39,7 @@ public class Road : MonoBehaviour
     public float Cos_FRQ = 1f;
     public float Cos_MGT = 1f;
 
-    public float Sin_FRQ = 1f;
+    public float Sin_FRQ = 2f;
     public float Sin_MGT = 2f;
 
     public float Circle_Offset_FRQ = 10f;
@@ -49,7 +49,7 @@ public class Road : MonoBehaviour
     public float Amplitude_Offset_MGT = 0.1f;
 
     public float Amplitude_Perlin_Zoom = 2f;
-    public float Amplitude_Perlin_MGT = 0.6f;
+    public float Amplitude_Perlin_MGT = 2f;
     public float Amplitude_Perlin_OffsetX = 1f;
     public float Amplitude_Perlin_OffsetY = 1f;
 
@@ -65,12 +65,15 @@ public class Road : MonoBehaviour
 
     public Portal portal; 
 
+	public GameObject plane; 
 
+	public Decoration_References decoration_References;
 
     public void Generate_Road(int _Seed)
     {
+
         points.Clear();
-        terrain_Generator.GenerateTerrain();
+        terrain_Generator.GenerateTerrain(_Seed);
 
         float inc = 2f * Mathf.PI / nbr;
 
@@ -105,16 +108,38 @@ public class Road : MonoBehaviour
             //vec *= (Size * (1 + Mathf.Cos(inc * i * Amplitude_Offset_FRQ) * Amplitude_Offset_MGT));
 
             //Useless
-            //Vector3 normal = (last - vec).normalized;
-            //last = vec;
+            Vector3 normal = (last - vec).normalized;
+            last = vec;
+
 
             points.Add(vec);
+
+/* 			if(i%20 == 0)
+			{
+				GameObject rock = Instantiate(decoration_References.Rocks_Prefabs[Random.Range(0, decoration_References.Rocks_Prefabs.Count - 1)], vec, Quaternion.identity);
+
+				Vector3 right = Vector3.Cross(normal, Vector3.up);
+
+				rock.transform.Translate(right * roadWidth * 4f);
+			} */
+
         }
+
 
     }
 
     public void Refresh()
 	{
+
+		portal = GameObject.FindGameObjectWithTag("Portal").GetComponent<Portal>(); 
+
+		plane.transform.position = new Vector3(plane.transform.position.x, 2f,plane.transform.position.z);
+
+
+		if(portal != null)
+        {
+            portal.gameObject.transform.position = Vector3.zero;
+        }
 
         points.Clear();
 
@@ -238,10 +263,6 @@ public class Road : MonoBehaviour
             }
         }
 
-        if(portal != null)
-        {
-            portal.ResetPosition();
-        }
 
 		Mesh m = new Mesh();
 		m.vertices = v.ToArray();
@@ -254,10 +275,19 @@ public class Road : MonoBehaviour
 #if UNITY_EDITOR
 		Unwrapping.GenerateSecondaryUVSet(gameObject.GetComponent<MeshFilter>().sharedMesh);
 #endif
+
+        if(portal != null)
+        {
+            portal.ResetPosition();
+        }
+
+		plane.transform.position = new Vector3(plane.transform.position.x, 2.4f,plane.transform.position.z);
+
 	}
 
 	public Vector2[] CalculateUV(Vector3[] vertices)
 	{
+
 		Vector2[] uvs = new Vector2[vertices.Length];
 
 		float scale = (1f / Vector3.Distance(vertices[0], vertices[1]));
@@ -321,7 +351,9 @@ public class Road : MonoBehaviour
 			uvs[i] += uvOffset;
 			uvs[i] = Vector2.Scale(uvs[i], uvScale);
 		}
+
 		return uvs;
+
 	}
 }
 

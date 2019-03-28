@@ -7,15 +7,22 @@ public class Terrain_Generator : MonoBehaviour {
     public int width = 256;
     public int height = 256;
 
-    public float scale = 20f;
+    public float scale = 30f;
 
     public float offsetX = 100f;
     public float offsetY = 100f;
 
     public Terrain terrain; 
 
-    public void GenerateTerrain()
+    public void GenerateTerrain(int _Seed)
     {
+
+        Random.InitState(_Seed); 
+
+        offsetX = Random.value * 100f + 100f ;
+        offsetY = Random.value * 100f + 100f ;
+
+
         terrain = GetComponent<Terrain>();
 
         terrain.terrainData.heightmapResolution = width + 1;

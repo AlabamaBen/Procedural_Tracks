@@ -73,6 +73,13 @@ public class RoadTool : Editor
 		GUI.changed = false;
 
         road.terrain_Generator = GameObject.FindGameObjectWithTag("Terrain").GetComponent<Terrain_Generator>(); 
+		
+		road.decoration_References = GameObject.FindGameObjectWithTag("Decoration").GetComponent<Decoration_References>(); 
+
+		road.portal = GameObject.FindGameObjectWithTag("Portal").GetComponent<Portal>(); 
+
+		road.plane = GameObject.FindGameObjectWithTag("Plane"); 
+
 
         road.roadWidth = EditorGUILayout.Slider("Road Width", road.roadWidth, MIN_ROAD_WIDTH, MAX_ROAD_WIDTH);
 		road.groundOffset = EditorGUILayout.Slider("Ground Offset", road.groundOffset, MIN_GROUND_OFFSET, MAX_GROUND_OFFSET);
@@ -140,6 +147,7 @@ public class RoadTool : Editor
         road.terrain_Generator.offsetY = EditorGUILayout.FloatField("offsetY", road.terrain_Generator.offsetY);
 
         EditorGUILayout.Space();
+
 
         if (GUILayout.Button("Modify"))
         {

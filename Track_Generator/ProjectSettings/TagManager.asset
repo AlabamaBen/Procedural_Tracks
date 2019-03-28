@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Terrain
+  - Decoration
+  - Portal
+  - Plane
   layers:
   - Default
   - TransparentFX

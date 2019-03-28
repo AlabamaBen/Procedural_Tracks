@@ -133,9 +133,11 @@ public class Road : MonoBehaviour
 
 				Vector3 right = Vector3.Cross(normal, Vector3.up);
 
+				rock.AddComponent<MeshCollider>();
+
 				float _scale = Random.value * 3f + 1f;
 
-				rock.transform.Translate(right * roadWidth * _scale );
+				rock.transform.Translate(right * roadWidth * (_scale +1f)  );
 
 
 				rock.transform.rotation = Random.rotation;
@@ -148,7 +150,6 @@ public class Road : MonoBehaviour
 			} 
 
         }
-
 
     }
 

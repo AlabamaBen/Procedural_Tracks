@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Decoration_References : MonoBehaviour {
 
-	public List<GameObject> Rocks_Prefabs;
-
-	
+	public List<GameObject> Rocks_Prefabs;	
 
 }

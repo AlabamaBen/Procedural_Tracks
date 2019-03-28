@@ -59,6 +59,8 @@ public class Road : MonoBehaviour
     [SerializeField]
     public Terrain_Generator terrain_Generator;
 
+	public List<GameObject> Decorations; 
+
     public Vector3 cen;
 
     public float point1H;
@@ -66,8 +68,12 @@ public class Road : MonoBehaviour
     public Portal portal; 
 
 	public GameObject plane; 
+	public GameObject terrain; 
+
 
 	public Decoration_References decoration_References;
+
+	public Transform Decoration_Parent; 
 
     public void Generate_Road(int _Seed)
     {
@@ -84,6 +90,14 @@ public class Road : MonoBehaviour
         // *100 because overwise it was everytime in the very close center og the perlin 
         float rdm_x = Random.value * 100 + Amplitude_Perlin_OffsetX;
         float rdm_y = Random.value * 100 + Amplitude_Perlin_OffsetY;
+
+
+		foreach(GameObject decoration in Decorations)
+		{
+			GameObject.DestroyImmediate(decoration);
+		}
+
+		Decorations = new List<GameObject>();
 
 
         for (int i = 0; i < nbr - 1; i++)
@@ -113,15 +127,25 @@ public class Road : MonoBehaviour
 
 
             points.Add(vec);
-
-/* 			if(i%20 == 0)
+ 			if(i%20 == 0)
 			{
-				GameObject rock = Instantiate(decoration_References.Rocks_Prefabs[Random.Range(0, decoration_References.Rocks_Prefabs.Count - 1)], vec, Quaternion.identity);
+				GameObject rock = Instantiate(decoration_References.Rocks_Prefabs[Random.Range(0, decoration_References.Rocks_Prefabs.Count - 1)], vec, Quaternion.identity, Decoration_Parent);
 
 				Vector3 right = Vector3.Cross(normal, Vector3.up);
 
-				rock.transform.Translate(right * roadWidth * 4f);
-			} */
+				float _scale = Random.value * 3f + 1f;
+
+				rock.transform.Translate(right * roadWidth * _scale );
+
+
+				rock.transform.rotation = Random.rotation;
+
+				rock.transform.localScale = new Vector3(_scale, _scale, _scale);
+
+
+				Decorations.Add(rock);
+				
+			} 
 
         }
 
@@ -132,8 +156,11 @@ public class Road : MonoBehaviour
 	{
 
 		portal = GameObject.FindGameObjectWithTag("Portal").GetComponent<Portal>(); 
+		Decoration_Parent = GameObject.FindGameObjectWithTag("Decoration").transform; 
 
 		plane.transform.position = new Vector3(plane.transform.position.x, 2f,plane.transform.position.z);
+		terrain.transform.position = new Vector3(terrain.transform.position.x, -7f,terrain.transform.position.z);
+
 
 
 		if(portal != null)
@@ -282,6 +309,8 @@ public class Road : MonoBehaviour
         }
 
 		plane.transform.position = new Vector3(plane.transform.position.x, 2.4f,plane.transform.position.z);
+		terrain.transform.position = new Vector3(terrain.transform.position.x, -7.3f,terrain.transform.position.z);
+
 
 	}
 

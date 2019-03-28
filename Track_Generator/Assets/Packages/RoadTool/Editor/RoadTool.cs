@@ -80,6 +80,8 @@ public class RoadTool : Editor
 
 		road.plane = GameObject.FindGameObjectWithTag("Plane"); 
 
+		road.terrain = GameObject.FindGameObjectWithTag("Terrain"); 
+
 
         road.roadWidth = EditorGUILayout.Slider("Road Width", road.roadWidth, MIN_ROAD_WIDTH, MAX_ROAD_WIDTH);
 		road.groundOffset = EditorGUILayout.Slider("Ground Offset", road.groundOffset, MIN_GROUND_OFFSET, MAX_GROUND_OFFSET);

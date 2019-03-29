@@ -45,7 +45,7 @@ public class Road : MonoBehaviour
 
 
 	//The number of point
-    public float nbr = 300f;
+    public float nbr = 200f;
 
 	//The Scale of the road
     public float Size = 300f;
@@ -92,10 +92,9 @@ public class Road : MonoBehaviour
 		Cos_MGT = Random.Range(0.5f, 1.2f);
 		Sin_MGT = Random.Range(0.5f, 1.2f);
 		Amplitude_Perlin_Zoom = Random.Range(1f, 2f);
-		Amplitude_Perlin_MGT = Random.Range(0.8f, 1.5f);
+		Amplitude_Perlin_MGT = Random.Range(0f, 1.5f);
 		Amplitude_Offset_FRQ= Random.Range(2, 4);
-		Amplitude_Offset_MGT= Random.Range(0.2f, 0.4f);
-
+		Amplitude_Offset_MGT= Random.Range(0f, 0.4f);
 	}
 
     public void Generate_Road()
@@ -142,7 +141,7 @@ public class Road : MonoBehaviour
 
 
 			//Generate decoations around the road 
- 			if(i%20 == 0)
+ 			if(i % (nbr / 10)  == 0)
 			{
 				GameObject rock = Instantiate(decoration_References.Rocks_Prefabs[Random.Range(0, decoration_References.Rocks_Prefabs.Count - 1)], vec, Quaternion.identity, Decoration_Parent);
 
@@ -322,8 +321,6 @@ public class Road : MonoBehaviour
 
 		plane.transform.position = new Vector3(plane.transform.position.x, 2.4f,plane.transform.position.z);
 		terrain.transform.position = new Vector3(terrain.transform.position.x, -7.3f,terrain.transform.position.z);
-
-
 	}
 
 	public Vector2[] CalculateUV(Vector3[] vertices)

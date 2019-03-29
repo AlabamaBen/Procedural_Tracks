@@ -75,6 +75,11 @@ public class UI_Manager : MonoBehaviour {
 		road.Amplitude_Offset_FRQ = slider_Sin_FRQ.value;
 		road.Amplitude_Offset_MGT = slider_Sin_MGT.value;
 	}
+    public void Exit_Game()
+    {
+        Debug.Log("Exit");
+        Application.Quit();
+    }
 
 
 

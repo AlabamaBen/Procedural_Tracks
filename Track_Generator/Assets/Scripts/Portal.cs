@@ -30,6 +30,7 @@ public class Portal : MonoBehaviour {
         Car.transform.Translate(-Car.transform.forward * 4f);
 
         Car.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        Car.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
         Debug.Log("Reset_Position");
 

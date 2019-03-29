@@ -21,7 +21,7 @@ public class Race_Manager : MonoBehaviour {
 
 		if(Input.GetKeyDown(KeyCode.R))
 		{
-			_road.Seed = Random.Range(1, 255);
+			_road.Randomize_Parameters(Random.Range(1, 255));
 			_road.Refresh();
 			Debug.Log("Road Refreshed");
 		}

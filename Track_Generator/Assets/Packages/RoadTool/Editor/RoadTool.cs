@@ -120,14 +120,9 @@ public class RoadTool : Editor
 
         road.Size = EditorGUILayout.FloatField("Size", road.Size);
 
-        road.Cos_FRQ = EditorGUILayout.FloatField("Cos_FRQ", road.Cos_FRQ);
         road.Cos_MGT = EditorGUILayout.FloatField("Cos_MGT", road.Cos_MGT);
 
-        road.Sin_FRQ = EditorGUILayout.FloatField("Sin_FRQ", road.Sin_FRQ);
         road.Sin_MGT = EditorGUILayout.FloatField("Sin_MGT", road.Sin_MGT);
-
-        road.Circle_Offset_FRQ = EditorGUILayout.FloatField("Circle_Offset_FRQ", road.Circle_Offset_FRQ);
-        road.Circle_Offset_MGT = EditorGUILayout.FloatField("Circle_Offset_MGT", road.Circle_Offset_MGT);
 
         road.Amplitude_Perlin_Zoom = EditorGUILayout.FloatField("Amplitude_Perlin_Zoom", road.Amplitude_Perlin_Zoom);
         road.Amplitude_Perlin_MGT = EditorGUILayout.FloatField("Amplitude_Perlin_MGT", road.Amplitude_Perlin_MGT);
@@ -155,9 +150,9 @@ public class RoadTool : Editor
         {
             road.acceptInput = false;
 
-            road.Seed = Random.Range(1, 255);
-
             EditorGUILayout.IntField("Seed", road.Seed);
+
+			road.Randomize_Parameters(Random.Range(1, 255));
 
             road.Refresh();
             SceneView.RepaintAll();

@@ -1,5 +1,8 @@
-// @khenkel 
+// Road mesh and uv generation by @khenkel 
 // parabox llc
+
+// Procedural Generation by @alabama_ben
+
 
 using UnityEngine;
 #if UNITY_EDITOR
@@ -11,6 +14,9 @@ using Parabox.Road;
 
 public class Road : MonoBehaviour 
 {
+	// //////////////////////////////////////////////////////////////////////////////
+	//	Mesh Generation parameters
+	// //////////////////////////////////////////////////////////////////////////////
 	public bool acceptInput = false;
 	public bool connectEnds = false;
 	public int insertPoint = -1;
@@ -31,84 +37,93 @@ public class Road : MonoBehaviour
 	public Material mat;
 
 
-    //Generation Values
+	// //////////////////////////////////////////////////////////////////////////////
+    //	Procedural Generation parameters
+	// /////////////////////////////////////////////////////////////////////////////
+
+    public int Seed = 1;
+
+
+	//The number of point
     public float nbr = 300f;
 
+	//The Scale of the road
     public float Size = 300f;
 
-    public float Cos_FRQ = 1f;
+	//Z equation
+    private float Cos_FRQ = 1f;
     public float Cos_MGT = 1f;
 
-    public float Sin_FRQ = 2f;
+	//X equation
+    private float Sin_FRQ = 1f;
     public float Sin_MGT = 2f;
 
-    public float Circle_Offset_FRQ = 10f;
-    public float Circle_Offset_MGT = 0f;
-
+	// Sinusoidal Variation on the circle equation, produce sur turn. Frequency need to be an integer 
+	// Overwise it will cut at the end
     public float Amplitude_Offset_FRQ = 3f;
     public float Amplitude_Offset_MGT = 0.1f;
 
+	// Perlin noise Variation on the circle equation 
     public float Amplitude_Perlin_Zoom = 2f;
     public float Amplitude_Perlin_MGT = 2f;
     public float Amplitude_Perlin_OffsetX = 1f;
     public float Amplitude_Perlin_OffsetY = 1f;
 
-
-    public int Seed = 1;
-
+	//Terrain and Decoration Generation parameters
     [SerializeField]
     public Terrain_Generator terrain_Generator;
-
 	public List<GameObject> Decorations; 
-
     public Vector3 cen;
-
     public float point1H;
-
     public Portal portal; 
-
 	public GameObject plane; 
 	public GameObject terrain; 
-
-
 	public Decoration_References decoration_References;
-
 	public Transform Decoration_Parent; 
 
-    public void Generate_Road(int _Seed)
+
+	//Regenerate all the parameters for generation with a given seed
+	public void Randomize_Parameters(int _Seed)
+	{
+		Seed = _Seed;
+
+        Random.InitState(Seed); 
+
+		Cos_MGT = Random.Range(0.5f, 1.2f);
+		Sin_MGT = Random.Range(0.5f, 1.2f);
+		Amplitude_Perlin_Zoom = Random.Range(1f, 2f);
+		Amplitude_Perlin_MGT = Random.Range(0.8f, 1.5f);
+		Amplitude_Offset_FRQ= Random.Range(2, 4);
+		Amplitude_Offset_MGT= Random.Range(0.2f, 0.4f);
+
+	}
+
+    public void Generate_Road()
     {
 
         points.Clear();
-        terrain_Generator.GenerateTerrain(_Seed);
+        terrain_Generator.GenerateTerrain(Seed);
 
         float inc = 2f * Mathf.PI / nbr;
 
         Vector3 last = Vector3.zero;
 
-        Random.InitState(_Seed); 
 
-        // *100 because overwise it was everytime in the very close center og the perlin 
+        // *100 because overwise it was everytime in the very close center of the perlin 
         float rdm_x = Random.value * 100 + Amplitude_Perlin_OffsetX;
         float rdm_y = Random.value * 100 + Amplitude_Perlin_OffsetY;
 
-
+		//Reset decoration
 		foreach(GameObject decoration in Decorations)
 		{
 			GameObject.DestroyImmediate(decoration);
 		}
-
 		Decorations = new List<GameObject>();
-
 
         for (int i = 0; i < nbr - 1; i++)
         {
-
-            float offset01 = (Mathf.Cos(inc * i * Circle_Offset_FRQ) + 1 ) * Circle_Offset_MGT;
-
-            float offset02 = (Mathf.Sin(inc * i * Circle_Offset_FRQ) + 1 ) * Circle_Offset_MGT;
-
             //Direction
-            Vector3 vec = new Vector3(Mathf.Cos(inc * i * Cos_FRQ + offset02) * Cos_MGT, 0, Mathf.Sin(inc * i * Sin_FRQ + offset01) * Sin_MGT);
+            Vector3 vec = new Vector3(Mathf.Cos(inc * i * Cos_FRQ ) * Cos_MGT, 0, Mathf.Sin(inc * i * Sin_FRQ) * Sin_MGT);
 
             //Amplitude
             vec *= Size * 
@@ -119,14 +134,14 @@ public class Road : MonoBehaviour
                 //Cos Offset
                 + Mathf.Cos(inc * i * Amplitude_Offset_FRQ) * Amplitude_Offset_MGT);
 
-            //vec *= (Size * (1 + Mathf.Cos(inc * i * Amplitude_Offset_FRQ) * Amplitude_Offset_MGT));
-
-            //Useless
+            //Compute direction of the road to place elements around 
             Vector3 normal = (last - vec).normalized;
             last = vec;
 
-
             points.Add(vec);
+
+
+			//Generate decoations around the road 
  			if(i%20 == 0)
 			{
 				GameObject rock = Instantiate(decoration_References.Rocks_Prefabs[Random.Range(0, decoration_References.Rocks_Prefabs.Count - 1)], vec, Quaternion.identity, Decoration_Parent);
@@ -136,18 +151,14 @@ public class Road : MonoBehaviour
 				rock.AddComponent<MeshCollider>();
 
 				float _scale = Random.value * 3f + 1f;
-
 				rock.transform.Translate(right * roadWidth * (_scale +1f)  );
-
-
 				rock.transform.rotation = Random.rotation;
-
 				rock.transform.localScale = new Vector3(_scale, _scale, _scale);
 
-
 				Decorations.Add(rock);
-				
 			} 
+			//Destroy the first because the first normal is always wrong
+			GameObject.DestroyImmediate(Decorations[0]);
 
         }
 
@@ -171,7 +182,7 @@ public class Road : MonoBehaviour
 
         points.Clear();
 
-        Generate_Road(Seed);
+        Generate_Road();
 
         if (points.Count < 2)
 			return;
